@@ -110,6 +110,26 @@ function moveRight(game) {
   return compose(reverseHorizontally, moveLeft, reverseHorizontally)(game);
 }
 
+function transpose(game) {
+  const columns = [];
+
+  for (let i = 0; i < N_SIZE; i++) {
+    const col = [];
+
+    for (let j = 0; j < N_SIZE; j++) {
+      col.push(game[j * N_SIZE + i]);
+    }
+
+    columns.push(col);
+  }
+
+  return flatten(columns);
+}
+
+function moveUp(game) {
+  return compose(transpose, moveLeft, transpose)(game);
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -133,6 +153,18 @@ export const reducer = handleActions(
     },
     [Actions.moveRight]: state => {
       const nextGame = moveRight(state.game);
+
+      if (isGameChanged(state.game, nextGame)) {
+        return {
+          ...state,
+          game: addNewTile(nextGame)
+        };
+      }
+
+      return state;
+    },
+    [Actions.moveUp]: state => {
+      const nextGame = moveUp(state.game);
 
       if (isGameChanged(state.game, nextGame)) {
         return {
