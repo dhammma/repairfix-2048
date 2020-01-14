@@ -149,8 +149,6 @@ function calculateGameSum(game) {
 function isGameFinished(game) {
   const emptyCells = game.filter(item => item.value === null);
 
-  console.log("emptyCells", emptyCells);
-
   if (emptyCells.length > 0) {
     return false;
   }
@@ -160,7 +158,6 @@ function isGameFinished(game) {
   return moveDirections.every(applyDirection => {
     const nextGame = applyDirection(game);
 
-    console.log("isChanged", !isGameChanged(game, nextGame));
     return !isGameChanged(game, nextGame);
   });
 }

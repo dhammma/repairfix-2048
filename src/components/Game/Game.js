@@ -13,7 +13,7 @@ const keyActionsMap = {
   ArrowLeft: Actions.moveLeft
 };
 
-const FLIP_DURATION = 450;
+const FLIP_DURATION = 150;
 
 const Game = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Game = () => {
 
   return (
     <div className={styles.Game}>
-      <FlipMove duration={FLIP_DURATION} easing="cubic-bezier(.12,.36,.14,1.2)">
+      <FlipMove duration={FLIP_DURATION} easing="linear">
         {game.map(item => (
           <Tile key={item.key} item={item} />
         ))}
