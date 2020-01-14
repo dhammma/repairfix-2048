@@ -1,7 +1,7 @@
 import { handleActions } from "redux-actions";
 import range from "lodash/range";
-import shuffle from "lodash/shuffle";
 import random from "lodash/random";
+import flatten from "lodash/flatten";
 
 import { N_SIZE } from "../constants";
 import * as Actions from "./actions";
@@ -26,7 +26,8 @@ function addNewTile(game) {
   const emptyPositions = game
     .filter(item => item.value === null)
     .map(item => item.key);
-  const randomEmptyPosition = emptyPositions[random(0, emptyPositions.length)];
+  const randomEmptyPosition =
+    emptyPositions[random(0, emptyPositions.length - 1)];
 
   const nextGame = game.map(item => {
     if (item.key === randomEmptyPosition) {
@@ -42,6 +43,25 @@ function addNewTile(game) {
   return nextGame;
 }
 
+function moveLeft(game) {
+  const rows = [];
+
+  for (let i = 0; i < N_SIZE; i++) {
+    rows.push(game.slice(i * N_SIZE, i * N_SIZE + N_SIZE));
+  }
+
+  for (let i = 0; i < N_SIZE; i++) {
+    const nextRow = [
+      ...rows[i].filter(item => item.value !== null),
+      ...rows[i].filter(item => item.value === null)
+    ];
+
+    rows[i] = nextRow;
+  }
+
+  return flatten(rows);
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -54,7 +74,7 @@ export const reducer = handleActions(
     [Actions.moveLeft]: state => {
       return {
         ...state,
-        game: shuffle([...state.game])
+        game: addNewTile(moveLeft(state.game))
       };
     }
   },
