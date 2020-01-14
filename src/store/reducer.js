@@ -1,9 +1,8 @@
 import { handleActions } from "redux-actions";
 import range from "lodash/range";
 
+import { N_SIZE } from "../constants";
 import * as Actions from "./actions";
-
-const N_SIZE = 5;
 
 const initialState = {
   isGameStarted: false,
