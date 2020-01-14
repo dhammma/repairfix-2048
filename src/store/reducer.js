@@ -5,19 +5,18 @@ import range from "lodash/range";
 import random from "lodash/random";
 import flatten from "lodash/flatten";
 
-import { N_SIZE } from "../constants";
 import * as Actions from "./actions";
 
 const initialState = {
-  gameSize: 5,
+  gameSize: 4,
   isGameStarted: false,
   isGameFinished: false,
   game: null,
   score: 0
 };
 
-function generateField() {
-  return range(0, N_SIZE * N_SIZE).map(id => ({
+function generateField(gameSize) {
+  return range(0, gameSize * gameSize).map(id => ({
     key: id,
     value: null
   }));
@@ -58,7 +57,7 @@ function moveRowLeft(row) {
     ...row.filter(item => item.value === null)
   ];
 
-  for (let i = 0; i < N_SIZE - 1; i++) {
+  for (let i = 0; i < row.length - 1; i++) {
     if (
       nextRow[i].value !== null &&
       nextRow[i].value === nextRow[i + 1].value
@@ -82,6 +81,8 @@ function moveRowLeft(row) {
 
 function moveLeft(game) {
   const rows = [];
+  const N_SIZE = game.length ** 0.5;
+  console.log("N_SIZE", N_SIZE);
 
   for (let i = 0; i < N_SIZE; i++) {
     rows.push(game.slice(i * N_SIZE, i * N_SIZE + N_SIZE));
@@ -95,6 +96,8 @@ function moveLeft(game) {
 }
 
 function isGameChanged(gameA, gameB) {
+  const N_SIZE = (gameA.length + 1) ** 0.5;
+
   for (let i = 0; i < N_SIZE * N_SIZE; i++) {
     if (gameA[i].value !== gameB[i].value) {
       return true;
@@ -106,6 +109,7 @@ function isGameChanged(gameA, gameB) {
 
 function reverseHorizontally(game) {
   const rows = [];
+  const N_SIZE = game.length ** 0.5;
 
   for (let i = 0; i < N_SIZE; i++) {
     rows.push(game.slice(i * N_SIZE, i * N_SIZE + N_SIZE).reverse());
@@ -120,6 +124,7 @@ function moveRight(game) {
 
 function transpose(game) {
   const columns = [];
+  const N_SIZE = game.length ** 0.5;
 
   for (let i = 0; i < N_SIZE; i++) {
     const col = [];
@@ -182,9 +187,9 @@ function handleMove(moveFunc) {
 
 export const reducer = handleActions(
   {
-    [Actions.changeGameSize]: (state, gameSize) => ({
+    [Actions.changeGameSize]: (state, { payload }) => ({
       ...state,
-      gameSize
+      gameSize: payload
     }),
     [Actions.createGame]: state => {
       return {
@@ -192,7 +197,7 @@ export const reducer = handleActions(
         score: 0,
         isGameStarted: true,
         isGameFinished: false,
-        game: addNewTile(generateField())
+        game: addNewTile(generateField(state.gameSize))
       };
     },
     [Actions.moveLeft]: handleMove(moveLeft),

@@ -19,6 +19,7 @@ const Game = () => {
   const dispatch = useDispatch();
   const isGameStarted = useSelector(state => state.isGameStarted);
   const game = useSelector(state => state.game);
+  const gameSize = useSelector(state => state.gameSize);
 
   useEffect(() => {
     function handleKeyPress(event) {
@@ -46,7 +47,7 @@ const Game = () => {
     <div className={styles.Game}>
       <FlipMove duration={FLIP_DURATION} easing="linear">
         {game.map(item => (
-          <Tile key={item.key} item={item} />
+          <Tile key={item.key} item={item} size={gameSize} />
         ))}
       </FlipMove>
     </div>

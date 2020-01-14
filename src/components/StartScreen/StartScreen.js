@@ -9,7 +9,7 @@ const StartScreen = () => {
   const gameSize = useSelector(state => state.gameSize);
 
   const changeGameSize = event => {
-    dispatch(Actions.changeGameSize(event.target.value));
+    dispatch(Actions.changeGameSize(parseInt(event.target.value, 10)));
   };
 
   const startGame = () => {
@@ -19,12 +19,16 @@ const StartScreen = () => {
   return (
     <div className={styles.StartScreen}>
       <div className={styles.Greeting}>Welcome to play in 2048</div>
-      {/* <div className={styles.GameSettings}>
+      <div className={styles.GameSettings}>
         <div className={styles.Label}>Game field size:</div>
         <div className={styles.InputWrapper}>
-          <input value={gameSize} onChange={changeGameSize} />
+          <input
+            type="number"
+            value={gameSize || ""}
+            onChange={changeGameSize}
+          />
         </div>
-      </div> */}
+      </div>
       <button className={styles.StartButton} onClick={startGame}>
         Start game
       </button>
