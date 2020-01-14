@@ -11,7 +11,7 @@ class Tile extends PureComponent {
       float: "left"
     };
 
-    return <div style={tileStyle}>{item.key}</div>;
+    return <div style={tileStyle}>{item.value}</div>;
   }
 }
 
