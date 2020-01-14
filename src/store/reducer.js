@@ -184,7 +184,9 @@ export const reducer = handleActions(
     [Actions.createGame]: state => {
       return {
         ...state,
+        score: 0,
         isGameStarted: true,
+        isGameFinished: false,
         game: addNewTile(generateField())
       };
     },
