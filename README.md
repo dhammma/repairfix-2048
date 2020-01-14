@@ -9,3 +9,10 @@ Simple 2048 game implementation
 Live demo:
 
 https://repairfix-2048.firebaseapp.com/
+
+Comments:
+
+What I can do if have more time:
+- make refactoring
+- add unit tests
+- make game field size configurable
