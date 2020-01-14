@@ -19,6 +19,8 @@ function generateField() {
 }
 
 function addNewTile(game) {
+  // here we have a problem with 10%/90% rules because we are using random function in other places
+  // we can fix it by using independent random function fot this line
   const r = random(0, 9);
   const value = r === 0 ? 4 : 2;
   const emptyPositions = game
