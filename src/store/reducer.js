@@ -10,6 +10,7 @@ import * as Actions from "./actions";
 
 const initialState = {
   isGameStarted: false,
+  isGameFinished: false,
   game: null,
   score: 0
 };
@@ -140,6 +141,22 @@ function calculateGameSum(game) {
   return max(game.filter(item => item.value !== null).map(item => item.value));
 }
 
+function isGameFinished(game) {
+  const emptyCells = game.filter(item => item.value === null);
+
+  if (emptyCells.length > 0) {
+    return false;
+  }
+
+  const moveDirection = [moveLeft, moveRight, moveUp, moveDown];
+
+  return moveDirection.every(applyDirection => {
+    const nextGame = applyDirection(game);
+
+    return !isGameChanged(game, nextGame);
+  });
+}
+
 function handleMove(moveFunc) {
   return state => {
     const nextGame = moveFunc(state.game);
@@ -148,7 +165,8 @@ function handleMove(moveFunc) {
       return {
         ...state,
         game: addNewTile(nextGame),
-        score: calculateGameSum(nextGame)
+        score: calculateGameSum(nextGame),
+        isGameFinished: isGameFinished(nextGame)
       };
     }
 
