@@ -82,7 +82,6 @@ function moveRowLeft(row) {
 function moveLeft(game) {
   const rows = [];
   const N_SIZE = game.length ** 0.5;
-  console.log("N_SIZE", N_SIZE);
 
   for (let i = 0; i < N_SIZE; i++) {
     rows.push(game.slice(i * N_SIZE, i * N_SIZE + N_SIZE));
@@ -96,7 +95,7 @@ function moveLeft(game) {
 }
 
 function isGameChanged(gameA, gameB) {
-  const N_SIZE = (gameA.length + 1) ** 0.5;
+  const N_SIZE = gameA.length ** 0.5;
 
   for (let i = 0; i < N_SIZE * N_SIZE; i++) {
     if (gameA[i].value !== gameB[i].value) {

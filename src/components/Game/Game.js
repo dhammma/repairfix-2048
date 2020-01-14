@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FlipMove from "react-flip-move";
+import { useSwipeable } from "react-swipeable";
 
 import { Tile } from "../Tile";
 import * as Actions from "../../store/actions";
@@ -13,6 +14,13 @@ const keyActionsMap = {
   ArrowLeft: Actions.moveLeft
 };
 
+const swipeActionsMap = {
+  Left: Actions.moveLeft,
+  Up: Actions.moveUp,
+  Right: Actions.moveRight,
+  Down: Actions.moveDown
+};
+
 const FLIP_DURATION = 150;
 
 const Game = () => {
@@ -20,6 +28,15 @@ const Game = () => {
   const isGameStarted = useSelector(state => state.isGameStarted);
   const game = useSelector(state => state.game);
   const gameSize = useSelector(state => state.gameSize);
+  const handlers = useSwipeable({
+    onSwiped: event => {
+      const actionCreator = swipeActionsMap[event.dir];
+
+      if (actionCreator) {
+        dispatch(actionCreator());
+      }
+    }
+  });
 
   useEffect(() => {
     function handleKeyPress(event) {
@@ -44,7 +61,7 @@ const Game = () => {
   }
 
   return (
-    <div className={styles.Game}>
+    <div className={styles.Game} {...handlers}>
       <FlipMove duration={FLIP_DURATION} easing="linear">
         {game.map(item => (
           <Tile key={item.key} item={item} size={gameSize} />
