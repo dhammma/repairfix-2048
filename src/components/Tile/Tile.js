@@ -9,7 +9,11 @@ class Tile extends PureComponent {
     const tileStyle = {
       width: `calc(50vh / ${N_SIZE} - 8px)`,
       height: `calc(50vh / ${N_SIZE} - 8px)`,
-      float: "left"
+      float: "left",
+      backgroundColor: item.value
+        ? `hsl(${(item.value * 1000) % 255}, ${50 + (item.value % 30)}%, ${40 +
+            (item.value % 40)}%)`
+        : null
     };
 
     return (
