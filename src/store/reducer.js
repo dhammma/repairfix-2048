@@ -9,6 +9,7 @@ import { N_SIZE } from "../constants";
 import * as Actions from "./actions";
 
 const initialState = {
+  gameSize: 5,
   isGameStarted: false,
   isGameFinished: false,
   game: null,
@@ -176,6 +177,10 @@ function handleMove(moveFunc) {
 
 export const reducer = handleActions(
   {
+    [Actions.changeGameSize]: (state, gameSize) => ({
+      ...state,
+      gameSize
+    }),
     [Actions.createGame]: state => {
       return {
         ...state,

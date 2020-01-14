@@ -1,0 +1,38 @@
+.StartScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Greeting {
+  color: darkviolet;
+  text-align: center;
+  width: 100%;
+}
+
+.GameSettings {
+  margin-top: 30px;
+
+  .Label {
+    text-align: center;
+  }
+}
+
+.InputWrapper {
+  margin-top: 10px;
+  text-align: center;
+
+  input {
+    padding: 5px 10px;
+    font-size: 16px;
+    text-align: center;
+    width: 60px;
+  }
+}
+
+.StartButton {
+  margin-top: 20px;
+  padding: 5px 10px;
+}

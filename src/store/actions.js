@@ -1,5 +1,7 @@
 import { createAction } from "redux-actions";
 
+export const changeGameSize = createAction("CHANGE_GAME_SIZE");
+
 export const createGame = createAction("CREATE_GAME");
 
 export const moveUp = createAction("MOVE_UP");
