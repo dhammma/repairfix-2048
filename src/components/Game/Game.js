@@ -61,13 +61,19 @@ const Game = () => {
   }
 
   return (
-    <div className={styles.Game} {...handlers}>
-      <FlipMove duration={FLIP_DURATION} easing="linear">
-        {game.map(item => (
-          <Tile key={item.key} item={item} size={gameSize} />
-        ))}
-      </FlipMove>
-    </div>
+    <>
+      <div className={styles.Game} {...handlers}>
+        <FlipMove duration={FLIP_DURATION} easing="linear">
+          {game.map(item => (
+            <Tile key={item.key} item={item} size={gameSize} />
+          ))}
+        </FlipMove>
+      </div>
+      <p className={styles.Description}>
+        <b>HOW TO PLAY:</b> Use your <b>arrow keys</b> to move the tiles. When
+        two tiles with the same number touch, they merge into one!
+      </p>
+    </>
   );
 };
 
