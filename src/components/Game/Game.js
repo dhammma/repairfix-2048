@@ -13,7 +13,7 @@ const keyActionsMap = {
   ArrowLeft: Actions.moveLeft
 };
 
-const FLIP_DURATION = 750;
+const FLIP_DURATION = 450;
 
 const Game = () => {
   const dispatch = useDispatch();
