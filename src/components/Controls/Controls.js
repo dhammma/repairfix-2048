@@ -13,7 +13,12 @@ const Controls = () => {
   return (
     <div>
       {!isGameStarted && <button onClick={startGame}>Start</button>}
-      {isGameStarted && <div>Game score: {score}</div>}
+      {isGameStarted && (
+        <div>
+          Game score: {score}
+          {score >= 2048 && " (You reached 2048)"}
+        </div>
+      )}
     </div>
   );
 };
