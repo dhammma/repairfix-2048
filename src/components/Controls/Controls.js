@@ -6,6 +6,7 @@ import * as Actions from "../../store/actions";
 const Controls = () => {
   const dispatch = useDispatch();
   const isGameStarted = useSelector(state => state.isGameStarted);
+  const score = useSelector(state => state.score);
 
   useEffect(() => {
     dispatch(Actions.createGame());
@@ -16,7 +17,7 @@ const Controls = () => {
   return (
     <div>
       {!isGameStarted && <button onClick={startGame}>Start</button>}
-      {isGameStarted && <div>Game started</div>}
+      {isGameStarted && <div>Game score: {score}</div>}
     </div>
   );
 };

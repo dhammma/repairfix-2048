@@ -1,5 +1,6 @@
 import { handleActions } from "redux-actions";
 import { compose } from "redux";
+import max from "lodash/max";
 import range from "lodash/range";
 import random from "lodash/random";
 import flatten from "lodash/flatten";
@@ -9,7 +10,8 @@ import * as Actions from "./actions";
 
 const initialState = {
   isGameStarted: false,
-  game: null
+  game: null,
+  score: 0
 };
 
 function generateField() {
@@ -134,6 +136,10 @@ function moveDown(game) {
   return compose(transpose, moveRight, transpose)(game);
 }
 
+function calculateGameSum(game) {
+  return max(game.filter(item => item.value !== null).map(item => item.value));
+}
+
 function handleMove(moveFunc) {
   return state => {
     const nextGame = moveFunc(state.game);
@@ -141,7 +147,8 @@ function handleMove(moveFunc) {
     if (isGameChanged(state.game, nextGame)) {
       return {
         ...state,
-        game: addNewTile(nextGame)
+        game: addNewTile(nextGame),
+        score: calculateGameSum(nextGame)
       };
     }
 
