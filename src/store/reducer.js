@@ -1,5 +1,6 @@
 import { handleActions } from "redux-actions";
 import range from "lodash/range";
+import shuffle from "lodash/shuffle";
 
 import { N_SIZE } from "../constants";
 import * as Actions from "./actions";
@@ -19,6 +20,12 @@ export const reducer = handleActions(
           key: id,
           value: null
         }))
+      };
+    },
+    [Actions.moveLeft]: state => {
+      return {
+        ...state,
+        game: shuffle([...state.game])
       };
     }
   },
