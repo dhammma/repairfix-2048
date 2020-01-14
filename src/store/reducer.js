@@ -130,6 +130,10 @@ function moveUp(game) {
   return compose(transpose, moveLeft, transpose)(game);
 }
 
+function moveDown(game) {
+  return compose(transpose, moveRight, transpose)(game);
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -165,6 +169,18 @@ export const reducer = handleActions(
     },
     [Actions.moveUp]: state => {
       const nextGame = moveUp(state.game);
+
+      if (isGameChanged(state.game, nextGame)) {
+        return {
+          ...state,
+          game: addNewTile(nextGame)
+        };
+      }
+
+      return state;
+    },
+    [Actions.moveDown]: state => {
+      const nextGame = moveDown(state.game);
 
       if (isGameChanged(state.game, nextGame)) {
         return {
