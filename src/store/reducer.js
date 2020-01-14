@@ -43,6 +43,27 @@ function addNewTile(game) {
   return nextGame;
 }
 
+function moveRowLeft(row) {
+  const nextRow = [
+    ...row.filter(item => item.value !== null),
+    ...row.filter(item => item.value === null)
+  ];
+
+  for (let i = 0; i < N_SIZE - 1; i++) {
+    if (
+      nextRow[i].value !== null &&
+      nextRow[i].value === nextRow[i + 1].value
+    ) {
+      nextRow[i] = {
+        ...nextRow[i],
+        value: nextRow[i].value * 2
+      };
+    }
+  }
+
+  return nextRow;
+}
+
 function moveLeft(game) {
   const rows = [];
 
@@ -51,12 +72,7 @@ function moveLeft(game) {
   }
 
   for (let i = 0; i < N_SIZE; i++) {
-    const nextRow = [
-      ...rows[i].filter(item => item.value !== null),
-      ...rows[i].filter(item => item.value === null)
-    ];
-
-    rows[i] = nextRow;
+    rows[i] = moveRowLeft(rows[i]);
   }
 
   return flatten(rows);
