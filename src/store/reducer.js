@@ -1,4 +1,5 @@
 import { handleActions } from "redux-actions";
+import { compose } from "redux";
 import range from "lodash/range";
 import random from "lodash/random";
 import flatten from "lodash/flatten";
@@ -95,6 +96,20 @@ function isGameChanged(gameA, gameB) {
   return false;
 }
 
+function reverseHorizontally(game) {
+  const rows = [];
+
+  for (let i = 0; i < N_SIZE; i++) {
+    rows.push(game.slice(i * N_SIZE, i * N_SIZE + N_SIZE).reverse());
+  }
+
+  return flatten(rows);
+}
+
+function moveRight(game) {
+  return compose(reverseHorizontally, moveLeft, reverseHorizontally)(game);
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -106,6 +121,18 @@ export const reducer = handleActions(
     },
     [Actions.moveLeft]: state => {
       const nextGame = moveLeft(state.game);
+
+      if (isGameChanged(state.game, nextGame)) {
+        return {
+          ...state,
+          game: addNewTile(nextGame)
+        };
+      }
+
+      return state;
+    },
+    [Actions.moveRight]: state => {
+      const nextGame = moveRight(state.game);
 
       if (isGameChanged(state.game, nextGame)) {
         return {
