@@ -134,6 +134,21 @@ function moveDown(game) {
   return compose(transpose, moveRight, transpose)(game);
 }
 
+function handleMove(moveFunc) {
+  return state => {
+    const nextGame = moveFunc(state.game);
+
+    if (isGameChanged(state.game, nextGame)) {
+      return {
+        ...state,
+        game: addNewTile(nextGame)
+      };
+    }
+
+    return state;
+  };
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -143,54 +158,10 @@ export const reducer = handleActions(
         game: addNewTile(generateField())
       };
     },
-    [Actions.moveLeft]: state => {
-      const nextGame = moveLeft(state.game);
-
-      if (isGameChanged(state.game, nextGame)) {
-        return {
-          ...state,
-          game: addNewTile(nextGame)
-        };
-      }
-
-      return state;
-    },
-    [Actions.moveRight]: state => {
-      const nextGame = moveRight(state.game);
-
-      if (isGameChanged(state.game, nextGame)) {
-        return {
-          ...state,
-          game: addNewTile(nextGame)
-        };
-      }
-
-      return state;
-    },
-    [Actions.moveUp]: state => {
-      const nextGame = moveUp(state.game);
-
-      if (isGameChanged(state.game, nextGame)) {
-        return {
-          ...state,
-          game: addNewTile(nextGame)
-        };
-      }
-
-      return state;
-    },
-    [Actions.moveDown]: state => {
-      const nextGame = moveDown(state.game);
-
-      if (isGameChanged(state.game, nextGame)) {
-        return {
-          ...state,
-          game: addNewTile(nextGame)
-        };
-      }
-
-      return state;
-    }
+    [Actions.moveLeft]: handleMove(moveLeft),
+    [Actions.moveRight]: handleMove(moveRight),
+    [Actions.moveUp]: handleMove(moveUp),
+    [Actions.moveDown]: handleMove(moveDown)
   },
   initialState
 );
