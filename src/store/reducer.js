@@ -58,10 +58,17 @@ function moveRowLeft(row) {
         ...nextRow[i],
         value: nextRow[i].value * 2
       };
+      nextRow[i + 1] = {
+        ...nextRow[i + 1],
+        value: null
+      };
     }
   }
 
-  return nextRow;
+  return [
+    ...nextRow.filter(item => item.value !== null),
+    ...nextRow.filter(item => item.value === null)
+  ];
 }
 
 function moveLeft(game) {
@@ -78,6 +85,16 @@ function moveLeft(game) {
   return flatten(rows);
 }
 
+function isGameChanged(gameA, gameB) {
+  for (let i = 0; i < N_SIZE * N_SIZE; i++) {
+    if (gameA[i].value !== gameB[i].value) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export const reducer = handleActions(
   {
     [Actions.createGame]: state => {
@@ -88,10 +105,16 @@ export const reducer = handleActions(
       };
     },
     [Actions.moveLeft]: state => {
-      return {
-        ...state,
-        game: addNewTile(moveLeft(state.game))
-      };
+      const nextGame = moveLeft(state.game);
+
+      if (isGameChanged(state.game, nextGame)) {
+        return {
+          ...state,
+          game: addNewTile(nextGame)
+        };
+      }
+
+      return state;
     }
   },
   initialState
