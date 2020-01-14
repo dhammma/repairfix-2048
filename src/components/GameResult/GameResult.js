@@ -22,7 +22,7 @@ const GameResult = () => {
         </div>
       </div> */}
       <button className={styles.StartButton} onClick={startGame}>
-        Start game
+        New game
       </button>
     </div>
   );

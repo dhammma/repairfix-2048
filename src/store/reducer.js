@@ -31,6 +31,10 @@ function addNewTile(game) {
   const emptyPositions = game
     .filter(item => item.value === null)
     .map(item => item.key);
+
+  if (emptyPositions.length === 0) {
+    return game;
+  }
   const randomEmptyPosition =
     emptyPositions[random(0, emptyPositions.length - 1)];
 
@@ -145,15 +149,18 @@ function calculateGameSum(game) {
 function isGameFinished(game) {
   const emptyCells = game.filter(item => item.value === null);
 
+  console.log("emptyCells", emptyCells);
+
   if (emptyCells.length > 0) {
     return false;
   }
 
-  const moveDirection = [moveLeft, moveRight, moveUp, moveDown];
+  const moveDirections = [moveLeft, moveRight, moveUp, moveDown];
 
-  return moveDirection.every(applyDirection => {
+  return moveDirections.every(applyDirection => {
     const nextGame = applyDirection(game);
 
+    console.log("isChanged", !isGameChanged(game, nextGame));
     return !isGameChanged(game, nextGame);
   });
 }
@@ -163,11 +170,12 @@ function handleMove(moveFunc) {
     const nextGame = moveFunc(state.game);
 
     if (isGameChanged(state.game, nextGame)) {
+      const gameWithTile = addNewTile(nextGame);
       return {
         ...state,
-        game: addNewTile(nextGame),
+        game: gameWithTile,
         score: calculateGameSum(nextGame),
-        isGameFinished: isGameFinished(nextGame)
+        isGameFinished: isGameFinished(gameWithTile)
       };
     }
 
